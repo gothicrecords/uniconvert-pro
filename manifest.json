@@ -1,0 +1,32 @@
+{
+  "name": "UniConvert Pro",
+  "short_name": "UniConvert",
+  "description": "All-in-One Instant Unit Converter – fast, free, offline, no ads",
+  "start_url": "/?utm_source=pwa",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0a1a",
+  "theme_color": "#6366f1",
+  "lang": "en",
+  "scope": "/",
+  "categories": ["utilities", "productivity"],
+  "icons": [
+    { "src": "icons/icon-72.png",   "sizes": "72x72",   "type": "image/png" },
+    { "src": "icons/icon-96.png",   "sizes": "96x96",   "type": "image/png" },
+    { "src": "icons/icon-128.png",  "sizes": "128x128", "type": "image/png" },
+    { "src": "icons/icon-144.png",  "sizes": "144x144", "type": "image/png" },
+    { "src": "icons/icon-152.png",  "sizes": "152x152", "type": "image/png" },
+    { "src": "icons/icon-192.png",  "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-384.png",  "sizes": "384x384", "type": "image/png" },
+    { "src": "icons/icon-512.png",  "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Length Converter",  "url": "/?cat=length",      "icons": [{"src": "icons/icon-96.png","sizes":"96x96"}] },
+    { "name": "Weight Converter",  "url": "/?cat=weight",      "icons": [{"src": "icons/icon-96.png","sizes":"96x96"}] },
+    { "name": "Currency Converter","url": "/?cat=currency",    "icons": [{"src": "icons/icon-96.png","sizes":"96x96"}] },
+    { "name": "Temperature Converter","url": "/?cat=temperature","icons": [{"src": "icons/icon-96.png","sizes":"96x96"}] }
+  ],
+  "screenshots": [
+    { "src": "icons/screenshot1.png", "sizes": "390x844", "type": "image/png", "form_factor": "narrow" }
+  ]
+}

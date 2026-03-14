@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniConvert Pro – All-in-One Instant Unit Converter 2026</title>
+    <meta name="description"
+        content="Free, fast, offline unit converter. Convert length, weight, temperature, volume, speed, data, currency and more. No ads, no tracking, PWA installable." />
+    <meta name="keywords"
+        content="unit converter, kg to lbs, miles to km, celsius to fahrenheit, GB to MB, currency converter, online converter" />
+    <meta name="author" content="UniConvert Pro" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#6dde8c" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="UniConvert Pro – All-in-One Instant Converter" />
+    <meta property="og:description"
+        content="Fast, clean, offline unit converter – no ads, no tracking. Convert length, weight, temperature, currency and 25+ categories." />
+    <meta property="og:image" content="/icons/og-image.png" />
+    <meta property="og:url" content="https://uniconvert.pro/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="UniConvert Pro – All-in-One Instant Converter" />
+    <meta name="twitter:description" content="Fast, clean, offline unit converter – no ads, no tracking." />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css?v=4" />
+
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "UniConvert Pro",
+    "description": "All-in-One Instant Unit Converter – fast, free, offline capable, no ads",
+    "url": "https://uniconvert.pro/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "featureList": ["Offline support","Dark mode","25+ unit categories","Currency conversion","PWA installable"]
+  }
+  </script>
+</head>
+
+<body>
+
+    <!-- ==================== TOP NAV ==================== -->
+    <header class="topnav" role="banner">
+        <div class="nav-inner">
+            <a href="/" class="brand" aria-label="UniConvert Pro Home">
+                <span class="brand-wordmark">UNICONVERT</span>
+                <span class="brand-pro">PRO</span>
+                <span class="brand-tag">v2.0</span>
+            </a>
+            <div class="nav-actions">
+                <button class="btn-icon" id="langToggle" aria-label="Change language" title="Language"></button>
+                <button class="btn-icon" id="themeToggle" aria-label="Toggle theme" title="Toggle theme"></button>
+                <button class="btn-icon" id="installBtn" aria-label="Install App" title="Install as App"
+                    style="display:none"></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== HERO ==================== -->
+    <section class="hero" id="hero">
+        <div class="hero-inner">
+            <h1 class="hero-title" id="seoH1">The instant <span class="accent-word">unit converter.</span></h1>
+            <p class="hero-subtitle">Fast, clean, offline · No ads, no tracking · 25+ categories · PWA installable</p>
+        </div>
+    </section>
+
+    <!-- ==================== CATEGORY TABS ==================== -->
+    <nav class="cat-nav" role="navigation" aria-label="Converter categories">
+        <div class="cat-scroll">
+            <!-- categories injected by JS -->
+        </div>
+    </nav>
+
+    <!-- ==================== MAIN CONVERTER ==================== -->
+    <main class="main-wrap" id="main">
+        <div class="converter-card glass" id="converterCard">
+            <div class="converter-header">
+                <span class="converter-cat-title" id="catTitle">Length / Distance</span>
+                <div class="precision-wrap">
+                    <label for="precisionSel">Decimals</label>
+                    <select id="precisionSel" aria-label="Select decimal precision">
+                        <option value="2">2</option>
+                        <option value="4">4</option>
+                        <option value="6" selected>6</option>
+                        <option value="8">8</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- FROM -->
+            <div class="conv-row">
+                <div class="conv-field">
+                    <label class="conv-label" for="fromVal">From</label>
+                    <div class="input-wrap">
+                        <input type="number" id="fromVal" class="conv-input" placeholder="0" inputmode="decimal"
+                            step="any" aria-label="Value to convert" />
+                        <select id="fromUnit" class="conv-select" aria-label="From unit"></select>
+                    </div>
+                </div>
+
+                <!-- Swap -->
+                <button class="swap-btn" id="swapBtn" aria-label="Swap units" title="Swap">
+                    <span class="swap-icon">⇄</span>
+                </button>
+
+                <!-- TO -->
+                <div class="conv-field">
+                    <label class="conv-label" for="toVal">To</label>
+                    <div class="input-wrap">
+                        <input type="number" id="toVal" class="conv-input result-field" placeholder="—"
+                            inputmode="decimal" step="any" aria-label="Converted result" readonly />
+                        <select id="toUnit" class="conv-select" aria-label="To unit"></select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-result row -->
+            <div id="multiResult" class="multi-result"></div>
+
+            <!-- Action row -->
+            <div class="action-row">
+                <button class="btn-action" id="copyBtn" aria-label="Copy result to clipboard">Copy</button>
+                <button class="btn-action" id="shareBtn" aria-label="Share this conversion">Share</button>
+                <button class="btn-action" id="favBtn" aria-label="Save to favorites">Save</button>
+                <button class="btn-action" id="reverseBtn" aria-label="Reverse calculation">Reverse</button>
+            </div>
+
+            <!-- Formula -->
+            <div id="formulaBox" class="formula-box" role="note"></div>
+
+            <!-- Reference table -->
+            <div id="refTable" class="ref-table-wrap"></div>
+        </div>
+
+        <!-- Favorites panel -->
+        <aside class="favorites-panel glass" id="favPanel" aria-label="Favorite conversions">
+            <div class="fav-title">Saved</div>
+            <div id="favList" class="fav-list"></div>
+            <p id="favEmpty" class="fav-empty">Save conversions here.</p>
+        </aside>
+    </main>
+
+    <!-- ==================== SPECIAL TOOLS ==================== -->
+    <section class="tools-section" id="toolsSection" aria-label="Special conversion tools">
+
+        <!-- Timezone -->
+        <div class="tool-card glass" id="toolTimezone" style="display:none">
+            <div class="tool-title">Timezone Converter</div>
+            <div class="tz-grid">
+                <div class="tz-col">
+                    <label for="tzFrom">From city / zone</label>
+                    <select id="tzFrom" aria-label="From timezone"></select>
+                    <input type="datetime-local" id="tzDateTime" aria-label="Date and time to convert" />
+                </div>
+                <div class="tz-arrow">→</div>
+                <div class="tz-col">
+                    <label for="tzTo">To city / zone</label>
+                    <select id="tzTo" aria-label="To timezone"></select>
+                    <div class="tz-result" id="tzResult" role="status" aria-live="polite">—</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Currency -->
+        <div class="tool-card glass" id="toolCurrency" style="display:none">
+            <div class="tool-title">Currency Converter</div>
+            <div class="currency-status" id="currencyStatus"></div>
+            <div class="conv-row">
+                <div class="conv-field">
+                    <label class="conv-label" for="currFromVal">Amount</label>
+                    <div class="input-wrap">
+                        <input type="number" id="currFromVal" class="conv-input" placeholder="1" inputmode="decimal"
+                            step="any" />
+                        <select id="currFrom" class="conv-select" aria-label="From currency"></select>
+                    </div>
+                </div>
+                <button class="swap-btn" id="currSwap" aria-label="Swap currencies"><span
+                        class="swap-icon">⇄</span></button>
+                <div class="conv-field">
+                    <label class="conv-label" for="currToVal">Result</label>
+                    <div class="input-wrap">
+                        <input type="number" id="currToVal" class="conv-input result-field" placeholder="—" readonly />
+                        <select id="currTo" class="conv-select" aria-label="To currency"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="currency-info" id="currencyInfo"></div>
+            <canvas id="currChart" height="80" style="margin-top:1rem;display:none"></canvas>
+        </div>
+
+        <!-- Color Converter -->
+        <div class="tool-card glass" id="toolColor" style="display:none">
+            <div class="tool-title">Color Converter</div>
+            <div class="color-grid">
+                <div class="color-preview-wrap">
+                    <div class="color-preview" id="colorPreview"></div>
+                    <input type="color" id="colorPicker" class="color-picker" value="#6dde8c"
+                        aria-label="Pick a color" />
+                </div>
+                <div class="color-fields">
+                    <div class="color-field"><label>HEX</label><input id="colorHex" class="conv-input mono"
+                            value="#6dde8c" /></div>
+                    <div class="color-field"><label>RGB</label><input id="colorRgb" class="conv-input mono"
+                            placeholder="109, 222, 140" /></div>
+                    <div class="color-field"><label>HSL</label><input id="colorHsl" class="conv-input mono"
+                            placeholder="138°, 66%, 65%" /></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BMI -->
+        <div class="tool-card glass" id="toolBmi" style="display:none">
+            <div class="tool-title">BMI Calculator</div>
+            <div class="bmi-grid">
+                <div class="bmi-field"><label for="bmiWeight">Weight (kg)</label><input id="bmiWeight" type="number"
+                        class="conv-input" placeholder="70" inputmode="decimal" /></div>
+                <div class="bmi-field"><label for="bmiHeight">Height (cm)</label><input id="bmiHeight" type="number"
+                        class="conv-input" placeholder="175" inputmode="decimal" /></div>
+            </div>
+            <div class="bmi-result" id="bmiResult" role="status" aria-live="polite"></div>
+        </div>
+
+        <!-- Age/Date -->
+        <div class="tool-card glass" id="toolAge" style="display:none">
+            <div class="tool-title">Age &amp; Date Calculator</div>
+            <div class="age-grid">
+                <div class="age-field"><label for="ageBirth">Date of birth</label><input id="ageBirth" type="date"
+                        class="conv-input" /></div>
+                <div class="age-field"><label for="ageRef">Reference date</label><input id="ageRef" type="date"
+                        class="conv-input" /></div>
+            </div>
+            <div class="age-result" id="ageResult" role="status" aria-live="polite"></div>
+        </div>
+
+        <!-- Base Converter -->
+        <div class="tool-card glass" id="toolBase" style="display:none">
+            <div class="tool-title">Number Base Converter</div>
+            <div class="base-grid">
+                <div class="base-field"><label>Decimal</label><input id="baseDec" class="conv-input mono"
+                        placeholder="255" /></div>
+                <div class="base-field"><label>Binary</label><input id="baseBin" class="conv-input mono"
+                        placeholder="11111111" /></div>
+                <div class="base-field"><label>Hexadecimal</label><input id="baseHex" class="conv-input mono"
+                        placeholder="FF" /></div>
+                <div class="base-field"><label>Octal</label><input id="baseOct" class="conv-input mono"
+                        placeholder="377" /></div>
+            </div>
+        </div>
+
+        <!-- Roman -->
+        <div class="tool-card glass" id="toolRoman" style="display:none">
+            <div class="tool-title">Roman Numeral Converter</div>
+            <div class="conv-row">
+                <div class="conv-field"><label class="conv-label" for="romanDec">Decimal</label><input id="romanDec"
+                        type="number" class="conv-input mono" placeholder="1994" min="1" max="3999"
+                        style="border-right:1px solid var(--border);border-radius:var(--radius)" /></div>
+                <div class="conv-arrow">⇄</div>
+                <div class="conv-field"><label class="conv-label" for="romanStr">Roman</label><input id="romanStr"
+                        class="conv-input mono" placeholder="MCMXCIV"
+                        style="border-right:1px solid var(--border);border-radius:var(--radius)" /></div>
+            </div>
+        </div>
+
+        <!-- Password Generator -->
+        <div class="tool-card glass" id="toolPassword" style="display:none">
+            <div class="tool-title">Password Generator</div>
+            <div class="pass-options">
+                <label><input type="checkbox" id="passUpper" checked /> A–Z</label>
+                <label><input type="checkbox" id="passLower" checked /> a–z</label>
+                <label><input type="checkbox" id="passNums" checked /> 0–9</label>
+                <label><input type="checkbox" id="passSymbols" /> #!@</label>
+                <label>Length: <input id="passLen" type="range" min="8" max="64" value="16" /> <span
+                        id="passLenVal">16</span></label>
+            </div>
+            <div class="pass-output">
+                <input id="passResult" class="conv-input mono" readonly />
+                <button class="btn-action" id="passGen">Generate</button>
+                <button class="btn-action" id="passCopy">Copy</button>
+            </div>
+            <div class="strength-bar-wrap">
+                <div class="strength-bar" id="strengthBar"></div>
+            </div>
+            <div class="strength-label" id="strengthLabel"></div>
+        </div>
+
+        <!-- Base64 -->
+        <div class="tool-card glass" id="toolBase64" style="display:none">
+            <div class="tool-title">Base64 Encode / Decode</div>
+            <textarea id="b64Input" class="b64-area" placeholder="Enter text or Base64…" rows="4"></textarea>
+            <div class="b64-actions">
+                <button class="btn-action" id="b64Encode">Encode →</button>
+                <button class="btn-action" id="b64Decode">← Decode</button>
+            </div>
+            <textarea id="b64Output" class="b64-area mono" placeholder="Result…" rows="4" readonly></textarea>
+        </div>
+
+        <!-- QR Code -->
+        <div class="tool-card glass" id="toolQr" style="display:none">
+            <div class="tool-title">QR Code Generator</div>
+            <input id="qrInput" class="conv-input mono" placeholder="Enter URL or text…"
+                style="border-right:1px solid var(--border);border-radius:var(--radius);width:100%;margin-bottom:.75rem" />
+            <button class="btn-action" id="qrGen">Generate QR</button>
+            <div id="qrOutput" class="qr-output"></div>
+        </div>
+    </section>
+
+    <!-- ==================== POPULAR CONVERSIONS ==================== -->
+    <section class="popular-section" id="popularSection">
+        <div class="section-inner">
+            <div class="section-title">Popular Conversions</div>
+            <div class="popular-grid" id="popularGrid"></div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                UNICONVERT <span class="brand-pro">PRO</span>
+                <span class="footer-tagline">— fast, free, offline</span>
+            </div>
+            <div class="footer-links">
+                <a href="/?cat=length" class="footer-link">Length</a>
+                <a href="/?cat=weight" class="footer-link">Weight</a>
+                <a href="/?cat=temperature" class="footer-link">Temperature</a>
+                <a href="/?cat=volume" class="footer-link">Volume</a>
+                <a href="/?cat=speed" class="footer-link">Speed</a>
+                <a href="/?cat=data" class="footer-link">Data</a>
+                <a href="/?cat=currency" class="footer-link">Currency</a>
+            </div>
+            <div class="footer-info">
+                <p>100% client-side · No tracking · No ads · PWA offline support</p>
+                <p class="footer-copy">© 2026 UniConvert Pro</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <div id="toast" class="toast" role="alert" aria-live="assertive"></div>
+
+    <!-- Language Modal -->
+    <div id="langModal" class="modal-bg" style="display:none" role="dialog" aria-modal="true"
+        aria-label="Select language">
+        <div class="modal-card">
+            <h3>Select Language</h3>
+            <div class="lang-grid">
+                <button class="lang-btn" data-lang="en">EN – English</button>
+                <button class="lang-btn" data-lang="it">IT – Italiano</button>
+                <button class="lang-btn" data-lang="es">ES – Español</button>
+                <button class="lang-btn" data-lang="de">DE – Deutsch</button>
+            </div>
+            <button class="modal-close" id="langClose" aria-label="Close">×</button>
+        </div>
+    </div>
+
+    <!-- Data (must load before app) -->
+    <script src="data.js"></script>
+    <!-- App JS -->
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-/* robots.txt */
+# robots.txt
 User-agent: *
 Allow: /
-Sitemap: https://uniconvert.pro/sitemap.xml
+Sitemap: https://gothicrecords.github.io/uniconvert-pro/sitemap.xml
